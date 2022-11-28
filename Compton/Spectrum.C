@@ -5,7 +5,7 @@
 
 void Spectrum(){
   TTree *t = new TTree("t","t");
-  t->ReadFile("Data/gate30.dat", "x");
+  t->ReadFile("Data/gate20e2.dat", "x");
   Int_t nbins = t->GetEntries();
   Float_t variable;
   t->SetBranchAddress("x", &variable);
@@ -16,5 +16,6 @@ void Spectrum(){
     //printf("%f\n", variable);
     h->SetBinContent(i,variable);
   }
+  h->Rebin(5);
   h->Draw();
 }

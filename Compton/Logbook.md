@@ -56,10 +56,51 @@ Variamo la soglia:
 Il CAEN prende l'altezza massima, all'interno del gate, del segnale shapato (è una tensione) e me lo converte in un'energia (lo spettro che vedo)
 
 
-### SEgnale di gate sulle coincidenze
+### Segnale di gate sulle coincidenze
 Stesse condizioni di lavoro del 17/11, V_alim1 = 680 V, V_alim2 = 1796 V
 V_thr1 = -20.7 [mV]
 V_thr2 = -20.9 [mV]
+
+
+Pt. 4 della scheda: otteniamo un angolo di 0.02 (abbiamo imposto che la differenza tra l'energia del fotone diffuso e l'energia iniziale del fotone fosse 0.277 KeV)
+
+Da fare giovedì 24 novembre:
+- segnale di gate sulle coincidenze (vedere se va bene come fatto la volta scorsa, altrimenti allarghiamo il gate)
+- determiniamo come varia il rate delle coincidenze al variare dell'angolo, per trovare l'angolo di lavoro (quello che massimizza il rate di coincidenze). Al tempo stesso osserviamo i rate in singola e gli spettri, per assicurarsi che non ci sia saturazione (tutto questo con gate sulle coincidenze)
+- trovato il range di angoli su cui operare proviamo a variare la soglia del discirminatore del PMT2, fissato l'angolo in quel range  e vediamo 
+
+- calibrazione
+
+- divergenza angolare: vediamo come varia il rate del PMT1 (senza metetre lo scintillatore plastico) al variare dell'angolo, per vedere la divergenza angolare del fascio
+- vedere come varia il rate al variare della distanza del PMT1 dalla sorgente (ad angolo fissato)
+
+## 24 novembre 2022
+angolo: 21
+il segnale del discriminatore del PMT1 va prima allungato per evitare le ripartenze del discriminatore stesso e poi di nuovo ridotto per farlo essere pari a quello del discriminatore del PMT2
+
+Ci siamo accorti che il segnale discriminato del PMT2 ripartiva poichè la soglia era troppo bassa (la durata del segnale balllava). Abbiamo alzato la soglia a -31.0 mV per evitare le ripartenze.
+
+allunghiamo il segnale discriminato di entrambi i PMT per evitare le ripartenze dei discriminatori e poi li riaccorciamo
+
+Stima delle accidentali:
+n1 = 92985
+n2 = 232874
+n1,2 circa 495 (non ho segnato)
+Delta_t = 100 s
+tau_1 \sim 150 ns
+tau_2 \sim 150 ns
+Così abbiamo 65 accidentali (stima con la formula), cioè il 14%
+
+Riduciamo i segnali discriminati a 100 ns per diminuire il rate delle accidentali (scende al 10%)
+
+
+
+
+Osserviamo segnali in cui prima abbiamo il segnale discirminato 1 e poi quello 2. Forse sono dovuti al seguente caso: arrivano due fotoni dalla sorgente, il primo triggera lo scintillatore e va dritto (o comunque non arriva nel cristallo), mentre il secondo viene perso dallo scintillatore (perchè?) e invece lo rivela il cristallo
+
+
+
+
 
 
 
