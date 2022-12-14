@@ -14,69 +14,39 @@
 #include <stdio.h>
 
 
-void Spectrum(){
-  TTree *cesio = new TTree("cesio","cesio");
-  TTree *cobalto = new TTree("cobalto","cobalto");
-  TTree *sodio = new TTree("sodio","sodio");
-  TTree *stronzio = new TTree("stronzio","stronzio");
+TH1D* Spectrum(){
 
-  cesio->ReadFile("Data/cesio137.dat", "x");
-  cobalto->ReadFile("Data/cobalto60.dat", "x");
-  sodio->ReadFile("Data/sodio22.dat", "x");
-  stronzio->ReadFile("Data/stronzio90.dat", "x");
+  //Define Trees
+  TTree *t= new TTree("cesio","cesio");
 
 
-  Int_t nbins = cesio->GetEntries();
-  Float_t v_cesio;
-  Float_t v_cobalto;
-  Float_t v_sodio;
-  Float_t v_stronzio;
-  cesio->SetBranchAddress("x", &v_cesio);
-  cobalto->SetBranchAddress("x", &v_cobalto);
-  sodio->SetBranchAddress("x", &v_sodio);
-  stronzio->SetBranchAddress("x", &v_stronzio);
-  TH1D *h_cesio = new TH1D("h_cesio","E Cesium Spectrum;Energy;Counts", nbins,0.,nbins);
-  TH1D *h_cobalto = new TH1D("h_cobalto","E Cobalt Spectrum;Energy;Counts", nbins,0.,nbins);
-  TH1D *h_sodio = new TH1D("h_sodio","E Sodium Spectrum;Energy;Counts", nbins,0.,nbins);
-  TH1D *h_stronzio = new TH1D("h_stronzio","E Strontium  Spectrum;Energy;Counts", nbins,0.,nbins);
+  //
+  t->ReadFile("./Data/cesio1dicembre.dat", "x");
+
+
+
+  Int_t nbins = t->GetEntries();
+  Float_t v_t;
+
+  t->SetBranchAddress("x", &v_t);
+
+  TH1D *h = new TH1D("h","E Spectrum Compton (22 degree) quat;Energy;Counts", nbins,0.,nbins);
+
   for (Int_t i=0;i<nbins;i++){
-    cesio->GetEntry(i);
+    t->GetEntry(i);
  
-    h_cesio->SetBinContent(i,v_cesio);
-    
-    cobalto->GetEntry(i);
-
-    h_cobalto->SetBinContent(i,v_cobalto);
-    
-    sodio->GetEntry(i);
-
-    h_sodio->SetBinContent(i,v_sodio);
-
-    stronzio->GetEntry(i);
-
-    h_stronzio->SetBinContent(i,v_stronzio);
-
+    h->SetBinContent(i,v_t);
+  
   }
-  h_cesio->Rebin(3);
-  h_cobalto->Rebin(3);
-  h_sodio->Rebin(3);
-  //h_stronzio->Rebin(3);
-  auto *c_cesio = new TCanvas("c_cesio", "", 800, 700);
-  h_cesio->Draw();
-  c_cesio->SaveAs("Plots/spettro_Cesio.pdf");
+  h->Rebin(25);
 
-  auto *c_cobalto = new TCanvas("c_cobalto", "", 800, 700);
-  h_cobalto->Draw();
-  c_cobalto->SaveAs("Plots/spettro_cobalto.pdf");
 
-  auto *c_sodio = new TCanvas("c_sodio", "", 800, 700);
-  h_sodio->Draw();
-  c_sodio->SaveAs("Plots/spettro_sodio.pdf");
+  auto *c = new TCanvas("c", "Spettro 30 gradi", 800, 700);
+  h->Draw();
+  h->DrawClone();
+  c->SaveAs("Plots/spettro_22quat.pdf");
 
-  auto *c_stronzio = new TCanvas("c_stronzio", "", 800, 700);
-  h_stronzio->Draw();
-  c_stronzio->SaveAs("Plots/spettro_stronzio.pdf");
-
+  return h;
 }
 
 #endif

@@ -1,6 +1,9 @@
 {
     "files.associations": {
         "Spectrum.C": "cpp",
-        "prova.C": "cpp"
+        "prova.C": "cpp",
+        "Compton.C": "cpp",
+        "Calibrazione.C": "cpp",
+        "CalibrationBrini.C": "cpp"
     }
 }
