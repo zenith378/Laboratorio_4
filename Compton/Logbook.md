@@ -223,7 +223,7 @@ Salviamo in "13dicembre15gradiprova2.dat". Qui abbiamo un numero di coincidenze 
 
 ## 14 dicembre 2022
 Temperatura: 18.7°, Ore 09:36
-Calibriamo con ciascuna delle quattro sorgenti per 100 secondi ciascuna. Salviamo i dati per ciascuna in "14dicembre9nomesorgente.dat"
+Calibriamo con ciascuna delle quattro sorgenti (quelle "scure") per 100 secondi ciascuna. Salviamo i dati per ciascuna in "14dicembre9nomesorgente.dat"
 
 Sodio:
 #1 = 20213
@@ -232,4 +232,14 @@ Cobalto-60:
 #1 = 90080
 
 Stronzio-90:
-#1 =
+#1 =38734
+
+Cesio-137:
+#1 = 229550
+
+La temperatura alle 09:48 è salita a 18.9°.
+
+Iniziamo l'acquisizione vera e propria ad una ngolo di 15° con i seguenti punti di lavoro:
+PMT1:
+- V_alim_1 = 679 V
+- V_thr_1 = 
