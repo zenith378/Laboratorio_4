@@ -6,8 +6,8 @@
 //
 //
 
-#ifndef fit2g_h
-#define fit2g_h
+#ifndef fitg_h
+#define fitg_h
 
 #include "TDirectory.h"
 #include "TH1.h"
@@ -52,7 +52,7 @@ Double_t fitfunction(Double_t *x, Double_t *par) {
 }
 
 //----------------------------------------------------------------------
-TFitResultPtr fit2g( string hs, double x1=1, double x9=0 )
+TFitResultPtr fitg( string hs, double x1=1, double x9=0 )
 {
     TH1 *h = (TH1*)gDirectory->Get( hs.c_str() ); // perché quaggiù non passiamo fare direttamente l'istogramma anziché la stringa?
 
@@ -173,7 +173,7 @@ TFitResultPtr fit2g( string hs, double x1=1, double x9=0 )
     cout << "prob  = " << lp2Fcn->GetProb() << endl;
 
     ///*
-    auto c1 = new TCanvas("c", "", 800, 700);
+    auto *c1 = new TCanvas("c", "", 800, 700);
     //c1->SetLogx();
     //c1->SetLogy();//*/
     
@@ -186,7 +186,9 @@ TFitResultPtr fit2g( string hs, double x1=1, double x9=0 )
     //cor.Print();
     
     lp2Fcn->Draw("same");
-    c1->SaveAs("fit_Cesio.pdf");
+    std::cout<<hs<<endl;
+    char* nome = hs.data();
+    c1->SaveAs("_fit.pdf");
     return r;
 
 }
