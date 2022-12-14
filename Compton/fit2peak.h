@@ -1,13 +1,13 @@
 //
-//  fit2g.h
+//  fit2peak.h
 //
 //
 //  Created by Giulio Cordova on 29/11/22.
 //
 //
 
-#ifndef fit2g_h
-#define fit2g_h
+#ifndef fit2peak_h
+#define fit2peak_h
 
 #include "TDirectory.h"
 #include "TH1.h"
@@ -36,7 +36,7 @@ Double_t gaussianPeak(Double_t *x, Double_t *par) {
     return par[0]*exp(-0.5* ((x[0]-par[1])/par[2]) * ((x[0]-par[1])/par[2])); //(par[2] *TMath::Sqrt(2*TMath::Pi()));
 }
 
-// Linear background function
+// quadratic background function
 Double_t background(Double_t *x, Double_t *par) {
     /*Definitin of a p2 function:
      par[0] is theheight at the origin
@@ -45,14 +45,14 @@ Double_t background(Double_t *x, Double_t *par) {
     return par[0] + par[1]*x[0] + par[2]*x[0]*x[0];
 }
 
-// Sum of background and peak function
+// Sum of background and two peaks function
 Double_t fitfunction(Double_t *x, Double_t *par) {
-    return background(x,par)+gaussianPeak(x,&par[3]);
-    //return tolto il fondo
+    return background(x,par)+ gaussianPeak(x,&par[3]) + gaussianPeak(x, &par[6]);
+    
 }
 
 //----------------------------------------------------------------------
-TFitResultPtr fit2g( string hs, double x1=1, double x9=0 )
+TFitResultPtr fit2peak( string hs, double x1=1, double x9=0 )
 {
     TH1 *h = (TH1*)gDirectory->Get( hs.c_str() ); // perché quaggiù non passiamo fare direttamente l'istogramma anziché la stringa?
 
@@ -122,24 +122,24 @@ TFitResultPtr fit2g( string hs, double x1=1, double x9=0 )
 
     cout << hs << ": bwt2=" << bwt2 << ", npk=" << npk << ", aa=" << aa << endl;
 
-    // create a TF1 with the range from x1 to x9 and 7 parameters
+    // create a TF1 with the range from x1 to x9 and 9 parameters
 
-    TF1 *lp2Fcn = new TF1( "lp2Fcn", fitfunction, x1, x9, 6 );
+    TF1 *lp2Fcn = new TF1( "lp2Fcn", fitfunction, x1, x9, 9 );
 
     lp2Fcn->SetParName( 0, "BG" );
     lp2Fcn->SetParName( 1, "slope" );
     lp2Fcn->SetParName( 2, "curv" );
-    //lp2Fcn->SetParName( 3, "Area");
-    //lp2Fcn->SetParName( 4, "FWHM" );
-    //lp2Fcn->SetParName( 5, "mean" );
-    lp2Fcn->SetParName( 3, "norm2");
-    lp2Fcn->SetParName( 4, "mean2" );
-    lp2Fcn->SetParName( 5, "sigma2" );
+    lp2Fcn->SetParName( 3, "norm1");
+    lp2Fcn->SetParName( 4, "mean1" );
+    lp2Fcn->SetParName( 5, "sigma1" );
+    lp2Fcn->SetParName( 6, "norm2");
+    lp2Fcn->SetParName( 7, "mean2" );
+    lp2Fcn->SetParName( 8, "sigma2" );
 
     
-    double nm1=8000;
-    double nm2=1200;
-    double me1=3580;
+    double nm1=500;
+    double nm2=400;
+    double me1=6200;
     double me2=7150;
     double sig1=300;
     double sig2=200;
@@ -148,12 +148,12 @@ TFitResultPtr fit2g( string hs, double x1=1, double x9=0 )
     lp2Fcn->SetParameter( 0, bg );
     lp2Fcn->SetParameter( 1, slp );
     lp2Fcn->SetParameter( 2, 0 );
-    lp2Fcn->SetParameter( 3, 8000 );//area 5e6 //norm
+    lp2Fcn->SetParameter( 3, nm1 );//area 5e6 //norm
     lp2Fcn->SetParameter( 4,me1 );//FWHM // mean
     lp2Fcn->SetParameter( 5, sig1 );//mean // sigma
-    //lp2Fcn->SetParameter( 3, nm2 );
-    //lp2Fcn->SetParameter( 4, me2 );
-    //lp2Fcn->SetParameter( 5, sig2 );
+    lp2Fcn->SetParameter( 6, nm2 );
+    lp2Fcn->SetParameter( 7, me2 );
+    lp2Fcn->SetParameter( 8, sig2 );
 
 
     lp2Fcn->SetLineWidth(4);
@@ -186,7 +186,7 @@ TFitResultPtr fit2g( string hs, double x1=1, double x9=0 )
     //cor.Print();
     
     lp2Fcn->Draw("same");
-    c1->SaveAs("fit_Cesio.pdf");
+    c1->SaveAs("fit_Cobalto.pdf");
     return r;
 
 }

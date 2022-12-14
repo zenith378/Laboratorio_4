@@ -14,9 +14,12 @@
 #include <stdio.h>
 
 
+
+
+
 void Spectrum(){
   TTree *t = new TTree("t","t");
-  t->ReadFile("Data/cesio137.dat", "x");
+  t->ReadFile("Data/cobalto60.dat", "x");
   Int_t nbins = t->GetEntries();
   Float_t variable;
   t->SetBranchAddress("x", &variable);

@@ -1,8 +1,9 @@
 #include "Spectrum.h"
-#include "fit2g.h"
+#include "fit2peak.h"
+
 
 int prova(){
     Spectrum();
-    fit2g("h",2900,4200);
+    fit2peak("h",5800, 7400);
     return 0;
 }
