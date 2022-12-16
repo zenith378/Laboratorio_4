@@ -242,4 +242,190 @@ La temperatura alle 09:48 è salita a 18.9°.
 Iniziamo l'acquisizione vera e propria ad una ngolo di 15° con i seguenti punti di lavoro:
 PMT1:
 - V_alim_1 = 679 V
-- V_thr_1 = 
+- V_thr_1 = -20.6 mV
+
+PMT2:
+- V_alim_2 = 1860 V
+- V_thr_1 = -25.2 mV
+Alle 11.14 sono 19.6° (-0.3% per C° vedi slides ottava lezione)
+
+Cose da fare giovedì in laboratorio:
+- acquisire ad angolo di 25°
+- terminata l'acquisizione (alle 14.30):
+    1. calibriamo con le sorgenti di calibrazione a diverse ore (3/4), segnandosi la temperatura
+    2. calibriamo a T fissata variando la distanza della sorgente dal PMT1, in modo da avere rate diversi e vediamo se la posizione dei picchi cambia 
+    3. acquisiamo con il solo PMT1, togliendo il plastico, ad angolo di 0°, con gate esterno, fatto però sul solo PMT1 e non sulle coincidenze (dato che non ci sono) per 3/4 distanze diverse del PMT1 dalla sorgente e vediamo se e di quanto si sposta la posizone dei picchi
+
+
+
+## 15 dicembre 2022
+Acquisiamo ad un angolo di 25°, iniziamo alle 9:30
+V_alim_1= 680 V
+V_thr_1 = -20.6 mV
+V_alim_1= 1840 V
+V_thr_1 = -25.2 mV
+
+La temperatura è di 19.1°.
+
+Stima degli angoli:
+- correggere per l'asse del fascio
+- associare un errore dovuto alla copertuta angolare del cristallo
+- errore di lettura dell'angolo (probabilmente rientra nella copertura angolare)
+
+Cose da fare oggi in laboratorio:
+- acquisire ad angolo di 25°
+- terminata l'acquisizione (alle 14.30):
+    1. calibriamo con le sorgenti di calibrazione a diverse ore (3/4), segnandosi la temperatura
+    2. calibriamo a T fissata variando la distanza della sorgente dal PMT1, in modo da avere rate diversi e vediamo se la posizione dei picchi cambia 
+    3. acquisiamo con il solo PMT1, togliendo il plastico, ad angolo di 0°, con gate esterno, fatto però sul solo PMT1 e non sulle coincidenze (dato che non ci sono) per 3/4 distanze diverse del PMT1 dalla sorgente e vediamo se e di quanto si sposta la posizone dei picchi
+    4. misuriamo la geometria per stimare la copertura angolare del plastico
+
+Misuriamo con il metro a nastro:
+- diametro del cristallo: 5.8 cm
+- spessore plastico: 2.7 cm
+- larghezza plastico: 5.4 cm
+
+Terminiamo l'acquisizione alle 14:56. Salviamo i dati in "15dicembre25gradi.dat". (i rate sono su telegram)
+
+Facciamo la calibrazione per questa giornata, che useremo per calibrare i picchi ottenuti oggi, sia come calibrazione delle ore 15:00 (poi ne prendiamo una ogni ora circa o meno per vedere se i picchi di ciascuna sorgente si spostano o no al variare della temperatura).
+
+Vediamo come e se cambia la posizone dei picchi delle sorgenti di calibrazione al variare della temeratura. Per farlo calibriamo in 3/4 momenti della giornata, segnandoci ora e temperatura.\
+### Prima calibrazione della giornata: 
+ore 15:00, temperatura 19.8°\
+Delta_t=100 s per tutte le sorgenti, nome file "15dicembre15nomesorgente.dat"\
+- Sodio: #conteggi =20021
+- Cobalto: #conteggi = 90015
+- Cesio: #conteggi = 230907
+- Stronzio: #conteggi = 38839
+
+
+Per vedere se la posizone dei picchi varia con il rate: usiamo solo il PMT1 posizionato ad angolo di -3° (senso antiorario) (93°), in modo da allinearlo con l'asse del fascio. Acquisiamo gli spettri della sorgente grande di Cobalto-60, usando gate esterno, fatto solo sul PMT1 e non sulle coincidenze come nelle acquisizioni tradizionali. Annotiamo il rate e acquisiamo gli spettri per ciascuna distanza. Facciamo variare la distanza tra cristallo e plastico da un minimo di 21.0 cm ad un massimo di 43.0 cm. Queste misure possono sostituire quelle fatte all'inizio, in cui eravamo arrivati ad una distanza massima lungo la guida di 14 cm. 21 cm è la distanza tra l'inizio della guida e l'uscita del collimatore cilindrico (tirato fuori di 4.1 cm)
+
+Delta_t = 100 s
+Distanza| #conteggi|
+:------|:-------|
+21.0 | 589883|
+21.0 + 22.0 | 348656|
+21.0 + 21.0 | 362830|
+21.0 + 20.0 | 379978|
+21.0 + 19.0| 393893|
+21.0 + 18.0| 407052|
+21.0 + 17.0| 424660|
+21.0 + 16.0| 439373|
+21.0 + 15.0| 456203|
+21.0 + 14.0| 484983|
+21.0 + 13.0| 499272|
+21.0 + 12.0| 507842|
+21.0 + 11.0 | 517545|
+21.0 + 10.0 | 529431|
+21.0 + 9.0| 538151|
+21.0 + 8.0| 549863
+ Mentre prendevamo queste misure la temperatura è variata da 19.8 a 20.4°, perciò decidiamo di prendere misure di rate per sole 5 posizioni, in modo da velocizzare la presa dati e mantenere la temperatura costante durante l'acquisizione, in modo che a avriare sia solo il rate. 
+
+Distanza dal| #conteggi| temperatura
+:------|:-------|:------|
+21.0 + 20.0| 388031| 20.5|
+21.0 + 15.0| 455054| 20.4|
+21.0 + 10.0 | 529431| 20.4|
+21.0 + 5.0 |565582| 20.4|
+21.0 |587169| 20.4|
+
+
+
+Con le misure appena fatte varia anche l'angolo coperto dal cristallo, poichè cambiamo la sua distanza dalla sorgente. Per tenere fissato l'angolo fissiamo la distanza a (21.0 + 0.0) cm e variamo la tensione di alimentazione del PMT, in modo che a cambaire sia solo il rate. NO! se cambiamo la tensione di alimentazione cambia la posizone dei picchi. Dovremmo ripetere le misure fatte al variare della distanza, usando però un collimatore, in modo che l'angolo coperto dal cristallo sia sempre lo stesso.
+
+Riprendiamo le misure, usando questa volta un collimatore (con foro di 0.97 cm, misurato con il calibro) posizionato davanti al cristallo (attaccato al cristallo - vedi foto fatte oggi), in modo da avere sempre lo stesso angolo coperto al varaiare della distanza cristallo-sorgente:
+La distanza è tra l'usicta del collimatore cilindrico (tirato fuori di 4.1 cm) e l'inizio del cristallo). Per fare queste misure usiamo sempre gate ext, fatto solo sul PMT1 e non sulle coincidenze
+
+Distanza| #conteggi| temperatura
+:------|:-------|:------|
+17.3 | 364665| 20.5|
+17.3 + 5|  293743 |  20.6  |
+17.3 + 10| 270329    |  20.6  |
+17.3 + 15|  238417   |  20.7 |
+17.3 + 20|  202024  | 20.7|
+
+
+
+### Seconda calibrazione: 
+ore 16:00, temperatura 20.4°, acquisiamo sempre con gate automatico e sempre con la sorgente che tocca il cristallo (vedi foto fatta oggi). Salviamo le acquisizioni in "15dicembre16nomesorgente.dat".\ Per tutte le sorgenti: Delta_t = 100 s
+
+- Sodio: #conteggi = 19269
+- Cesio: #conteggi = 227077
+- Stronzio: #conteggi = 39062
+- Cobalto: #conteggi = 85989
+
+La temperatura alla fine della calibrazione è rimasta a 20.4°
+
+### Terza calibrazione:
+Ore: 17.14, temperatura 20.9° (usiamo sempre gate auto). salviamo in "16dicembre17nomesorgente.dat". Delta_t = 100 s per tutte.
+
+- Sodio: #conteggi = 19697
+- Cesio: #conteggi = 226260
+- Cobalto: #conteggi = 89263
+- Stronzio: #conteggi = 38636
+
+Distanza PMT-plastico = 14 cm
+
+
+Cerchiamo il punto di lavoro per un angolo di 10°. 
+
+
+Acquisiamo così:
+- PMT1:
+    -  V_thr_1 = 20.8 mV
+    - V_alim_1 = 680 V
+
+- PMT2:
+    - V_alim_2 = 1865 V
+    - V_thr_2 = 28.7 mV
+
+#1 = 55118\
+#2 = 378364\
+#1,2 = 486\
+Delta_t = 100 s
+
+PRENDERE FOTO COINCIDENZE ALL'OSCILLOSCOPIO! Fatta per un angolo di 10°, con i punti di lavoro descritti sopra
+
+IMPORTANTE: proviamo a ridurre ulteriormente l'nagolo e vediamo quando i rate esplodono. In quel caso significa che stiamo prendendo il fascio diretto. Tutto ciò per essere sicuri che a 10° prendiamo solo il Compton. \
+
+Ci mettiamo ad un angolo di 5°. I rate esplodono, quindi stiamo prendendo il fascio diretto. Abbiamo (con i punti di lavoro definiti per angolo di 10°):
+
+#1 = 268472\
+#2 = 360284\
+#1,2 = 503\
+Delta_t = 100 s
+
+Ad un angolo di 7°:
+- #1 = 149571
+- #2 = 356721
+- #1,2 = 432
+- Delta_t = 100 s
+
+Ad un angolo di 8°:
+- #1 = 97566
+- #2 = 349576
+- #1,2 = 398
+- Delta_t = 100 s
+
+Ad un angolo di 9°:
+- #1 = 64627
+- #2 = 358525
+- #1,2 = 469
+- Delta_t = 100 s
+
+### Quarta calibrazione:
+Ore: 18.0, temperatura 21.1° (usiamo sempre gate auto). salviamo in "16dicembre18nomesorgente.dat". Delta_t = 100 s per tutte.
+
+- Sodio: #conteggi = 20295
+- Cesio: #conteggi = 230533
+- Cobalto: #conteggi = 90823
+- Stronzio: #conteggi = 39022
+
+
+Possiamo misurare l'efficienza del PMT1, da considerare come sistematico. Considerazioni sulla distribuzione in energia al variare dell'angolo, visto che ogni volta acquisiamo a più angoli (angolo letto +- copertura del cristallo, vedi appunti tablet)
+
+Ragionare sul fatto che usare sorgenti che decadono beta è un rischio perchè non sono una riga, ma hanno uno spettro continuo
+
+
+
