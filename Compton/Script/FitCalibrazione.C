@@ -93,9 +93,9 @@ void FitCalibrazione()
 
     x.setRange("signal_gaus", 2800., 4000.);
     
-    //RooAddPdf model("model_gaus", "Gaussian model", RooArgList(sig_gaus, bkg), RooArgList(fsig1), kTRUE);
+    RooAddPdf model("model_gaus", "Gaussian model", RooArgList(sig_gaus, bkg), RooArgList(fsig1), kTRUE);
     
-    RooAddPdf model("model_cb", "Crystal Ball model", RooArgList(sig_cb, bkg), RooArgList(fsig1),kTRUE);
+    //RooAddPdf model("model_cb", "Crystal Ball model", RooArgList(sig_cb, bkg), RooArgList(fsig1),kTRUE);
 
     RooFitResult *fitResult = model.fitTo(rh, Range("signal_gaus"),RecoverFromUndefinedRegions(1), Verbose(false), Warnings(false), Save(), PrintEvalErrors(-1), PrintLevel(-1));
     
