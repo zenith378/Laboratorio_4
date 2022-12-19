@@ -24,14 +24,10 @@ using namespace RooFit;
 
 void FitSpettro()
 {
-    std::string folder ="Preliminari";
-    std::string namefile = "sist27centimetriColl";
-    std::string nameHist = "Spettro 27 cm collimatore";
-    std::string histTitle = "Spettro 27 cm collimatore";
-
-    //15 gradi: 2000, 6500
-    //17 centimetri: 2000, 8192
-    // per il calcolo dell'area dell'istogramma nella regione gaussiana usare:  5600-6300 per il Co-60 a 1.17 MeV, 6400-7100 per 1.33 MeV
+    std::string folder ="25 gradi";
+    std::string namefile = "15dicembre25gradi";
+    std::string nameHist = "25_gradi_spettro";
+    std::string histTitle = "Spettro 25 gradi";
     float min = 2000;
     float max = 8192;
     // Define Trees
@@ -182,7 +178,7 @@ void FitSpettro()
     RooArgSet display(mean1,sigma1,mean2,sigma2,mean3,sigma3);
     model.paramOn(xframe,
             Parameters(display),
-            Layout(0.35, 0.25, 0.62),
+            Layout(0.25, 0.2, 0.58),
             Format("NE", AutoPrecision(1)),
             Label(chi2Line)
             );
