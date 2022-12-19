@@ -24,10 +24,10 @@ using namespace RooFit;
 
 void FitSpettro()
 {
-    std::string folder ="15 gradi";
-    std::string namefile = "14dicembre15gradi";
-    std::string nameHist = "15_gradi_spettro";
-    std::string histTitle = "Spettro 15 gradi";
+    std::string folder ="25 gradi";
+    std::string namefile = "15dicembre25gradi";
+    std::string nameHist = "25_gradi_spettro";
+    std::string histTitle = "Spettro 25 gradi";
     float min = 2000;
     float max = 6500;
     // Define Trees
@@ -80,13 +80,13 @@ void FitSpettro()
     //RooRealVar a2("a2", "a2", 0, -30., 30.);
     RooPolynomial bkg("bkg", "Background", x, RooArgSet(a0, a1));
 
-    RooRealVar mean1("mean1", "mean of gaussians", 3200,3400 , 4000);
+    RooRealVar mean1("mean1", "mean of gaussians", 3400,3200 , 4000);
     RooRealVar sigma1("sigma1", "width of gaussians",1300 , 800, 2000);
     
-    RooRealVar mean2("mean2", "mean of gaussians", 5000,4900 , 5250);
+    RooRealVar mean2("mean2", "mean of gaussians", 4800,4700 , 5000);
     RooRealVar sigma2("sigma2", "width of gaussians", 100, 100, 800);
     
-    RooRealVar mean3("mean3", "mean of gaussians", 5600,5400 , 6000);
+    RooRealVar mean3("mean3", "mean of gaussians", 5360,5200 , 5600);
     RooRealVar sigma3("sigma3", "width of gaussians", 100, 100, 800);
     
     RooRealVar alpha_up("alpha_up","alpha_up",1,0,10);
@@ -134,7 +134,7 @@ void FitSpettro()
     RooArgSet display(mean1,sigma1,mean2,sigma2,mean3,sigma3);
     model.paramOn(xframe,
             Parameters(display),
-            Layout(0.35, 0.25, 0.62),
+            Layout(0.25, 0.2, 0.58),
             Format("NE", AutoPrecision(1)),
             Label(chi2Line)
             );
