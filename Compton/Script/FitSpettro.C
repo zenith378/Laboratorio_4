@@ -24,16 +24,20 @@ using namespace RooFit;
 
 void FitSpettro()
 {
-    std::string folder ="15 gradi";
-    std::string namefile = "14dicembre15gradi";
-    std::string nameHist = "15_gradi_spettro";
-    std::string histTitle = "Spettro 15 gradi";
+    std::string folder ="Preliminari";
+    std::string namefile = "sist27centimetriColl";
+    std::string nameHist = "Spettro 27 cm collimatore";
+    std::string histTitle = "Spettro 27 cm collimatore";
+
+    //15 gradi: 2000, 6500
+    //17 centimetri: 2000, 8192
+    // per il calcolo dell'area dell'istogramma nella regione gaussiana usare:  5600-6300 per il Co-60 a 1.17 MeV, 6400-7100 per 1.33 MeV
     float min = 2000;
-    float max = 6500;
+    float max = 8192;
     // Define Trees
     TTree *t = new TTree("t", "t");
 
-    std::string tmp = "../"+folder+"/Data/" + namefile + ".dat";
+    std::string tmp = "../"+folder+"/picchiVSrate/Data/" + namefile + ".dat";
     const char *fname = tmp.c_str();
 
     t->ReadFile(fname, "x");
@@ -54,10 +58,19 @@ void FitSpettro()
     h->Rebin(25);
     h->GetXaxis()->SetRangeUser(min, max);
 
+    //Calculate the area under the histogram only in the gaussian region (the option )
+    Double_t area_gauss = h->Integral(h->FindFixBin(min), h->FindFixBin(max), "width" );
+
+    std::cout << h->GetBinCenter(h->FindFixBin(min)) << std::endl;
+    std::cout << h->GetBinWidth(h->FindFixBin(min)) << std::endl;
+    std::cout <<  h->GetBinCenter(h->FindFixBin(max)) << std::endl;
+    std::cout << h->GetBinWidth(h->FindFixBin(max)) << std::endl;
+    std::cout << "Area under the histogram in the gaussian region:" << area_gauss << std::endl;
+
     auto *c = new TCanvas("c", "Spettro", 800, 700);
     h->Draw();
 
-    std::string tmp_name = "../"+folder+"/Plots/Spettro/" + nameHist + ".pdf";
+    std::string tmp_name = "../"+folder+"/picchiVSrate/Plot/" + nameHist + ".pdf";
     const char *ffile = tmp_name.c_str();
 
     c->SaveAs(ffile);
@@ -80,13 +93,42 @@ void FitSpettro()
     //RooRealVar a2("a2", "a2", 0, -30., 30.);
     RooPolynomial bkg("bkg", "Background", x, RooArgSet(a0, a1));
 
-    RooRealVar mean1("mean1", "mean of gaussians", 3200,3400 , 4000);
-    RooRealVar sigma1("sigma1", "width of gaussians",1300 , 800, 2000);
+
+    //15 gradi: 3200, 3400, 4000
+    //17 cm: 5400, 5300, 6000
+    //22 cm: 5400, 5300, 6000
+    //27 cm: 5400, 5300, 6000
+    //32 cm: 4400, 4300, 5000
+    //37 cm: 4400, 4600, 5000
+    RooRealVar mean1("mean1", "mean of gaussians", 5400,5300 , 6000);
+
+    //15 gradi: 1300, 800, 2000
+    //17 cm: 1500, 800, 2000
+    //22 cm: ""
+    //27 cm:""
+    //32 cm: ""
+    //37 cm: ""
+    RooRealVar sigma1("sigma1", "width of gaussians",1500 , 800, 2000);
     
-    RooRealVar mean2("mean2", "mean of gaussians", 5000,4900 , 5250);
+    //15 gradi: 5000, 4900,5250
+    //17 cm; 6050, 5900, 6200
+    //22 cm: 6015, 5900, 6200
+    //27 cm; 5990,5800 , 6200
+    //32 cm: 5960,5800 , 6100
+    //37 cm: 5930, 5800, 6100
+    RooRealVar mean2("mean2", "mean of gaussians", 5990,5800 , 6200);
+
+    //15 gradi: 100,100,800
     RooRealVar sigma2("sigma2", "width of gaussians", 100, 100, 800);
     
-    RooRealVar mean3("mean3", "mean of gaussians", 5600,5400 , 6000);
+    //15 gradi: 5600, 5400, 6000
+    //17 cm: 6830, 6600, 7000
+    //22 cm: 6780, 6600, 7000
+    //27 cm: ""
+    //32 cm: 6750,6600 , 7000
+    //37 cm: 6670, 6500, 6900
+    RooRealVar mean3("mean3", "mean of gaussians", 6780,6600 , 7000);
+
     RooRealVar sigma3("sigma3", "width of gaussians", 100, 100, 800);
     
     RooRealVar alpha_up("alpha_up","alpha_up",1,0,10);
@@ -100,7 +142,13 @@ void FitSpettro()
     RooGaussian peak1("peak1", "Primo Picco", x, mean2, sigma2);
     RooGaussian peak2("peak2", "Secondo Picco", x, mean3, sigma3);
 
-    x.setRange("signal_gaus", 3200., 6500.);
+    //15 gradi: 3200-6500
+    //17 cm: 5400-7500
+    //22 cm: ""
+    //27 cm: ""
+    //32 cm: 5400-7500
+    //37 cm: 5500-7500
+    x.setRange("signal_gaus", 5400, 7500);
     
     RooAddPdf model("model", "Gaussian model", RooArgList(spalla,peak1,peak2), RooArgList(fsig1,fsig2),kTRUE);
     
@@ -186,7 +234,7 @@ void FitSpettro()
     c1->Update();
 
 
-    std::string tmp_fitplot = "../"+folder+"/Plots/Spettro/" + nameHist + "_Fit" + ".pdf";
+    std::string tmp_fitplot = "../"+folder+"/picchiVSrate/Plot/" + nameHist + "_Fit" + ".pdf";
     const char *ffit_plot = tmp_fitplot.c_str();
 
     c1->SaveAs(ffit_plot);

@@ -10,15 +10,15 @@
 void Spettro()
 {
 
-    std::string namefile = "13dicembre20gradi";
-    std::string nameHist = "20_gradi_spettro";
-    std::string histTitle = "Spettro 20 gradi";
+    std::string namefile = "sist17centimetriColl";
+    std::string nameHist = "Spettro con collimatore 17 cm";
+    std::string histTitle = "Spettro con collimatore 17 cm";
     float min = 2000;
     float max = 6500;
     // Define Trees
     TTree *t = new TTree("t", "t");
 
-    std::string tmp = "../20 gradi/Data/" + namefile + ".dat";
+    std::string tmp = "../Preliminari/Data/" + namefile + ".dat";
     const char *fname = tmp.c_str();
 
     t->ReadFile(fname, "x");
@@ -43,7 +43,7 @@ void Spettro()
     h->Draw();
     h->DrawClone();
 
-    std::string tmp_name = "../20 gradi/Plots/Spettro/" + nameHist + ".pdf";
+    std::string tmp_name = "../Preliminari/Plot/" + nameHist + ".pdf";
     const char *ffile = tmp_name.c_str();
 
     c->SaveAs(ffile);

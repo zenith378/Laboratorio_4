@@ -335,7 +335,7 @@ Distanza dal| #conteggi| temperatura
 Con le misure appena fatte varia anche l'angolo coperto dal cristallo, poichè cambiamo la sua distanza dalla sorgente. Per tenere fissato l'angolo fissiamo la distanza a (21.0 + 0.0) cm e variamo la tensione di alimentazione del PMT, in modo che a cambaire sia solo il rate. NO! se cambiamo la tensione di alimentazione cambia la posizone dei picchi. Dovremmo ripetere le misure fatte al variare della distanza, usando però un collimatore, in modo che l'angolo coperto dal cristallo sia sempre lo stesso.
 
 Riprendiamo le misure, usando questa volta un collimatore (con foro di 0.97 cm, misurato con il calibro) posizionato davanti al cristallo (attaccato al cristallo - vedi foto fatte oggi), in modo da avere sempre lo stesso angolo coperto al varaiare della distanza cristallo-sorgente:
-La distanza è tra l'usicta del collimatore cilindrico (tirato fuori di 4.1 cm) e l'inizio del cristallo). Per fare queste misure usiamo sempre gate ext, fatto solo sul PMT1 e non sulle coincidenze
+La distanza è tra l'usicta del collimatore cilindrico (tirato fuori di 4.1 cm) e l'inizio del cristallo). Per fare queste misure usiamo sempre gate ext, fatto solo sul PMT1 e non sulle coincidenze. Salviamo ogni acquisizione in *sistdistanzacentimetriColl.dat*.
 
 Distanza| #conteggi| temperatura
 :------|:-------|:------|
@@ -428,4 +428,69 @@ Possiamo misurare l'efficienza del PMT1, da considerare come sistematico. Consid
 Ragionare sul fatto che usare sorgenti che decadono beta è un rischio perchè non sono una riga, ma hanno uno spettro continuo
 
 
+## Stima degli errori sistematici
+Gli errori così stimati tengono di conto:
+- della resa luminosa del cristallo
+- dell'efficienza di raccolta dello scintillatore (Galli ha detto che è del 50%, ma dobbiamo capire se davvero è così e se anche fosse capire come giustificarlo)
+- della quantum efficiency del PMT (considerata pari al 20%, poi dovremo trovare un valore più preciso)
 
+Per la notazione usata e il calcolo fatto per ottenere N_pe guardare appunti *"Errori sistematici sul valore del picco* sul tablet (da allegare).
+### Calibrazioni 13 dicembre 2022 (acquisizione a 20 gradi)
+#### Ore 11:00
+
+Sorgente| N_pe | N | Errore sistematico [%]|
+:-------|:-----|:--------|:-----|
+Cesio-137| 2516| 139984|10.1|
+Cobalto-60 (primo picco)| 4458| 243075|13.5|
+Cobalto-60 (secondo picco)| 5063| 202890|15.8|
+Sodio-22| 1983| 124725| 12.6|
+
+
+
+#### Ore 16:00
+
+Sorgente| N_pe | N | Errore sistematico|
+:-------|:-----|:--------|:-----|
+Cesio-137| 2516| 223223|10.6|
+Cobalto-60 (primo picco)| 4458 | 953385| 6.8
+Cobalto-60 (secondo picco)| 5063 | 791580| 8.0|
+Sodio-22|1983 | 275865| 8.5|
+
+### Calibrazioni 14 dicembre 2022 (acquisizione a 15 gradi)
+#### Ore 9
+
+Sorgente| N_pe | N | Errore sistematico [%]|
+:-------|:-----|:--------|:-----|
+Cesio-137| 2516| 2.7203 x 1e6| 3.0|
+Cobalto-60 (primo picco)| 4458| 288300| 12.4|
+Cobalto-60 (secondo picco)| 5063| 219885| 15.2|
+Sodio-22| 1983| 158220|11.2|
+
+### Calibrazioni 15 dicembre 2022 (acquisizione a 25 gradi)
+#### Ore 15
+
+Sorgente| N_pe | N | Errore sistematico [%]|
+:-------|:-----|:--------|:-----|
+Cesio-137| 2516| 2.67058 x 1e6| 3.1|
+Cobalto-60 (primo picco)| 4458| 271365| 12.8|
+Cobalto-60 (secondo picco)| 5063| 210600| 15.5|
+Sodio-22| 1983| 200805| 9.9|
+
+
+Si vede che, a parità di durata di acquisizione l'erorre sistematico associato al Cesio è minore poichè il rate della sorgente è più alto e quindi nello stesso intervallo di tempo avrò più conteggi.
+
+
+### Variazione della posizone dei picchi del Co-60 con il rate del PMT1
+#### Stima dell'errore sistematico associato alla scal in energia
+Per stimare N calcoliamo l'area sotto l'istogramma nella regione del primo picco (5700-6300 a.u) usando i dati in *sist27centimetriColl.dat*. Si tratta di una prima stima, poi andrebbe fatto con tutti le acquisizioni alle varie distanze e andrebbe fatta la media.
+Sorgente|Distanza [cm]| N_pe | N | Errore sistematico [%]|
+:-------|:----|:-----|:--------|:-----|
+
+Cobalto-60 (primo picco)| 27 | 4458| 1.25535 x 1e6| 5.9 |
+Cobalto-60 (secondo picco)| 27| 5063| 1.08562 x 1e6| 6.8 |
+
+Questa stima va ripetuta con tutte le distanze e associata a *err_peak1*, *err_peak2* nello script *SistematicoRate.C*.
+
+
+1. Correggere area istogramma: prendere area del solo segnale, senza fondo per la stima del sistematico dovuto alla scala di eenrgia
+2. Correggere fit calibrazione incorporando sisteamtici dovuti alla scala di energia

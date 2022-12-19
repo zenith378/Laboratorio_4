@@ -25,15 +25,20 @@ using namespace RooFit;
 void FitCalibrazione()
 {
 
-    std::string namefile = "13dicembre16cesio";
-    std::string nameHist = "Cesio_13_dicembre_H16";
-    std::string histTitle = "Cesio 13 dicembre H16";
-    float min = 2800;
-    float max = 4000;
+    std::string namefile = "15dicembre15cesio";
+    std::string nameHist = "Cesio 15_dicembre_H15";
+    std::string histTitle = "Cesio 15 dicembre H15";
+    //13 dicembre h 11   Cesio: 2800-4000 , Sodio: 2460-2950, Cobalto 1.17: 5800-6400, Cobalto 1.33 : 6500-7200 
+    //13 dicembre h 16   Cobalto 1.17: 5700-6350, Cobalto 1.33: 6400-7200, Sodio: 2450-2900
+    //14 dicembre h 9    Sodio: 2480-2950, Cesio: 3200-3800, Cobalto 1.17: 5700-6400, Cobalto 1.33: 6500-7200
+    //15 dicembre h 15   Cobalto 1.17: 5600-6300, Cobalto 1.33: 6400-7100, Cesio: 3200-3800, Sodio: 2400-2900
+
+    float min = 3200;
+    float max = 3800;
     // Define Trees
     TTree *t = new TTree("t", "t");
 
-    std::string tmp = "../20 gradi/Data/Calibrazioni/" + namefile + ".dat";
+    std::string tmp = "../Data/Calibrazioni/" + namefile + ".dat";
     const char *fname = tmp.c_str();
 
     t->ReadFile(fname, "x");
@@ -51,8 +56,20 @@ void FitCalibrazione()
 
         h->SetBinContent(i, v_t);
     }
+
+    
     h->Rebin(15);
     h->GetXaxis()->SetRangeUser(min, max);
+
+    
+    //Calculate the area under the histogram only in the gaussian region (the option )
+    Double_t area_gauss = h->Integral(h->FindFixBin(min), h->FindFixBin(max), "width" );
+
+    std::cout << h->GetBinCenter(h->FindFixBin(min)) << std::endl;
+    std::cout << h->GetBinWidth(h->FindFixBin(min)) << std::endl;
+    std::cout <<  h->GetBinCenter(h->FindFixBin(max)) << std::endl;
+    std::cout << h->GetBinWidth(h->FindFixBin(max)) << std::endl;
+    std::cout << "Area under the histogram in the gaussian region:" << area_gauss << std::endl;
 
     auto *c = new TCanvas("c", "Spettro", 800, 700);
     h->Draw();
@@ -62,7 +79,7 @@ void FitCalibrazione()
     const char *ffile = tmp_name.c_str();
 
     c->SaveAs(ffile);
-
+    
     RooRealVar x("x", "Energy [a.u.]", min, max);
     RooDataHist rh("rh", "rh", x, Import(*h));
 
@@ -86,12 +103,12 @@ void FitCalibrazione()
     RooRealVar alpha_up("alpha_up","alpha_up",1,0,10);
     RooRealVar n_up("n_up","n_up",1,0,10);
     
-    RooRealVar fsig1("fsig1", "signal1", 0.8, 0.01, 1.);
+    RooRealVar nsig1("nsig1", "signal1", 0.8, 0.01, 1.);
 
     RooGaussian sig_gaus("sig1", "Gaussian signal component", x, mean, sigma);
     RooCBShape sig_cb("upsilon","crystal ball PDF",x,mean,sigma,alpha_up,n_up);
 
-    x.setRange("signal_gaus", 2800., 4000.);
+    x.setRange("signal_gaus", min, max);
     
     //RooAddPdf model("model_gaus", "Gaussian model", RooArgList(sig_gaus, bkg), RooArgList(fsig1), kTRUE);
     
@@ -171,5 +188,6 @@ void FitCalibrazione()
     const char *ffit_plot = tmp_fitplot.c_str();
 
     c1->SaveAs(ffit_plot);
+    
     return;
 }
