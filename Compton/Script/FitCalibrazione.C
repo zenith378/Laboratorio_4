@@ -25,16 +25,16 @@ using namespace RooFit;
 void FitCalibrazione()
 {
 
-    std::string namefile = "15dicembre15cobalto";
-    std::string nameHist = "Cobalto_15_dicembre_25gradi_";
-    std::string histTitle = "Cobalto 15 dicembre 25 gradi";
-    std::string tipoFit = "gaus + bkg";
-    float min = 5400;
-    float max = 7600;
+    std::string namefile = "210hertz_cal";
+    std::string nameHist = "Energy_vs_rate_210";
+    std::string histTitle = "Cobalto 210 Hz";
+    std::string tipoFit = "CB + bkg 210";
+    float min = 5200;
+    float max = 7500;
     // Define Trees
     TTree *t = new TTree("t", "t");
 
-    std::string tmp = "../25 gradi/Data/Calibrazioni/" + namefile + ".dat";
+    std::string tmp = "../Preliminari/Data/Rate/" + namefile + ".dat";
     const char *fname = tmp.c_str();
 
     t->ReadFile(fname, "x");
@@ -71,7 +71,7 @@ void FitCalibrazione()
     h->Draw();
     h->DrawClone();
 
-    std::string tmp_name = "../25 gradi/Plots/Calibrazioni/Cobalto/" + nameHist + ".pdf";
+    std::string tmp_name = "../Preliminari/picchiVSrate/Plots/" + nameHist + ".pdf";
     const char *ffile = tmp_name.c_str();
 
     c->SaveAs(ffile);
@@ -94,14 +94,14 @@ void FitCalibrazione()
     //RooRealVar a2("a2", "a2", 0, -300., 300.);
     RooPolynomial bkg("bkg", "Background", x, RooArgSet(a0, a1));
 
-    RooRealVar mean1("mean1", "mean of gaussians", 6000,5500 , 6500);
+    RooRealVar mean1("mean1", "mean of gaussians", 5950,5500 , 6500);
     RooRealVar sigma1("sigma1", "width of gaussians", 350, 80, 600);
     RooRealVar alpha_up1("alpha_up1","alpha_up",1,0,10);
     RooRealVar n_up1("n_up1","n_up",1,0,10);
     
-    RooRealVar nsig1("nsig1", "signal1", 0.8, 0.01, 1.);
+    RooRealVar fsig1("fsig1", "signal1", 0.8, 0.01, 1.);
 
-    RooRealVar mean2("mean2", "mean of gaussians", 7000,6500 , 7500);
+    RooRealVar mean2("mean2", "mean of gaussians", 6650,6400 , 6900);
     RooRealVar sigma2("sigma2", "width of gaussians", 350, 80, 600);
     RooRealVar alpha_up2("alpha_up2","alpha_up",1,0,10);
     RooRealVar n_up2("n_up2","n_up",1,0,10);
@@ -115,9 +115,9 @@ void FitCalibrazione()
 
     //x.setRange("signal_gaus", 2600., 3000.);
     
-    RooAddPdf model("model_gaus", "Gaussian model", RooArgList(sig_gaus1, sig_gaus2, bkg), RooArgList(fsig1,fsig2), kTRUE);
+    //RooAddPdf model("model_gaus", "Gaussian model", RooArgList(sig_gaus1, sig_gaus2, bkg), RooArgList(fsig1,fsig2), kTRUE);
     
-    //RooAddPdf model("model_cb", "Crystal Ball model", RooArgList(sig_cb1,sig_cb2,bkg), RooArgList(fsig1,fsig2),kTRUE);
+    RooAddPdf model("model_cb", "Crystal Ball model", RooArgList(sig_cb1,sig_cb2,bkg), RooArgList(fsig1,fsig2),kTRUE);
 
     RooFitResult *fitResult = model.fitTo(rh,RecoverFromUndefinedRegions(1), Verbose(false), Warnings(false), Save(), PrintEvalErrors(-1), PrintLevel(-1));
     
@@ -136,8 +136,8 @@ void FitCalibrazione()
     // Overlay the background component of model with a dashed line
     model.plotOn(xframe, Components(bkg), LineColor(41), LineStyle(kDashed));
     // Overlay the sig1 components of model with a dashed-dotted line
-    model.plotOn(xframe, Components(sig_gaus1), LineColor(46), LineStyle(8));
-    model.plotOn(xframe, Components(sig_gaus2), LineColor(30), LineStyle(9));
+    model.plotOn(xframe, Components(sig_cb1), LineColor(46), LineStyle(8));
+    model.plotOn(xframe, Components(sig_cb2), LineColor(30), LineStyle(9));
 
     model.plotOn(xframe, LineWidth(2), LineColor(kRed));
 
@@ -191,7 +191,7 @@ void FitCalibrazione()
     c1->Update();
 
 
-    std::string tmp_fitplot = "../25 gradi/Plots/Calibrazioni/Cobalto/" + tipoFit + "_Fit" + ".pdf";
+    std::string tmp_fitplot = "../Preliminari/picchiVSrate/Plots/" + tipoFit + "_Fit" + ".pdf";
     const char *ffit_plot = tmp_fitplot.c_str();
 
     c1->SaveAs(ffit_plot);
