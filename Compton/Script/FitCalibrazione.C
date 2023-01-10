@@ -25,16 +25,19 @@ using namespace RooFit;
 void FitCalibrazione()
 {
 
-    std::string namefile = "15dicembre15cobalto";
-    std::string nameHist = "Cobalto_15_dicembre_25gradi_";
-    std::string histTitle = "Cobalto 15 dicembre 25 gradi";
+    std::string namefile = "15dicembre18sodio";
+    std::string nameHist = "Sodio_15_dicembre_h18_";
+    std::string histTitle = "Sodio 15 dicembre h 18";
     std::string tipoFit = "gaus + bkg";
-    float min = 5400;
-    float max = 7600;
+
+    //per il Ce: 2900-3800
+    //per il sodio: 2200-3000, 2400-2850
+    float min = 2400.;//5000 gauss, 5600 crystal
+    float max = 2850.;
     // Define Trees
     TTree *t = new TTree("t", "t");
 
-    std::string tmp = "../25 gradi/Data/Calibrazioni/" + namefile + ".dat";
+    std::string tmp = "../Data/Preliminari/Temperatura/Data/" + namefile + ".dat";
     const char *fname = tmp.c_str();
 
     t->ReadFile(fname, "x");
@@ -71,7 +74,7 @@ void FitCalibrazione()
     h->Draw();
     h->DrawClone();
 
-    std::string tmp_name = "../25 gradi/Plots/Calibrazioni/Cobalto/" + nameHist + ".pdf";
+    std::string tmp_name = "../Data/Temperatura/Plots/" + nameHist + ".pdf";
     const char *ffile = tmp_name.c_str();
 
     c->SaveAs(ffile);
@@ -94,14 +97,18 @@ void FitCalibrazione()
     //RooRealVar a2("a2", "a2", 0, -300., 300.);
     RooPolynomial bkg("bkg", "Background", x, RooArgSet(a0, a1));
 
-    RooRealVar mean1("mean1", "mean of gaussians", 6000,5500 , 6500);
+
+    //per il Co: 6000, 5500, 6000
+    //per il Ce: 3500, 3300, 3700
+    RooRealVar mean1("mean1", "mean of gaussians", 2700, 2600, 2800);
     RooRealVar sigma1("sigma1", "width of gaussians", 350, 80, 600);
     RooRealVar alpha_up1("alpha_up1","alpha_up",1,0,10);
     RooRealVar n_up1("n_up1","n_up",1,0,10);
     
-    RooRealVar nsig1("nsig1", "signal1", 0.8, 0.01, 1.);
+    RooRealVar fsig1("fsig1", "signal1", 0.8, 0.01, 1.);
 
-    RooRealVar mean2("mean2", "mean of gaussians", 7000,6500 , 7500);
+    //per il Co: 7000, 6500, 7500
+    RooRealVar mean2("mean2", "mean of gaussians", 3500,3300 , 3700);
     RooRealVar sigma2("sigma2", "width of gaussians", 350, 80, 600);
     RooRealVar alpha_up2("alpha_up2","alpha_up",1,0,10);
     RooRealVar n_up2("n_up2","n_up",1,0,10);
@@ -113,11 +120,15 @@ void FitCalibrazione()
     RooGaussian sig_gaus2("sig2", "Gaussian signal component", x, mean2, sigma2);
     RooCBShape sig_cb2("cb2","crystal ball PDF",x,mean2,sigma2,alpha_up2,n_up2);
 
-    //x.setRange("signal_gaus", 2600., 3000.);
+    x.setRange("signal_gaus", min, max);
     
-    RooAddPdf model("model_gaus", "Gaussian model", RooArgList(sig_gaus1, sig_gaus2, bkg), RooArgList(fsig1,fsig2), kTRUE);
+    //RooAddPdf model("model_gaus", "Gaussian model", RooArgList(sig_gaus1, sig_gaus2, bkg), RooArgList(fsig1,fsig2), kTRUE);
+
+    //RooAddPdf model("model_gaus", "Gaussian model", RooArgList(sig_gaus1, bkg), RooArgList(fsig1), kTRUE);
     
     //RooAddPdf model("model_cb", "Crystal Ball model", RooArgList(sig_cb1,sig_cb2,bkg), RooArgList(fsig1,fsig2),kTRUE);
+
+    RooAddPdf model("model_cb", "Crystal Ball model", RooArgList(sig_cb1,bkg), RooArgList(fsig1),kTRUE);
 
     RooFitResult *fitResult = model.fitTo(rh,RecoverFromUndefinedRegions(1), Verbose(false), Warnings(false), Save(), PrintEvalErrors(-1), PrintLevel(-1));
     
@@ -138,6 +149,9 @@ void FitCalibrazione()
     // Overlay the sig1 components of model with a dashed-dotted line
     model.plotOn(xframe, Components(sig_gaus1), LineColor(46), LineStyle(8));
     model.plotOn(xframe, Components(sig_gaus2), LineColor(30), LineStyle(9));
+
+    model.plotOn(xframe, Components(sig_cb1), LineColor(46), LineStyle(8));
+    model.plotOn(xframe, Components(sig_cb2), LineColor(30), LineStyle(9));
 
     model.plotOn(xframe, LineWidth(2), LineColor(kRed));
 
@@ -191,7 +205,7 @@ void FitCalibrazione()
     c1->Update();
 
 
-    std::string tmp_fitplot = "../25 gradi/Plots/Calibrazioni/Cobalto/" + tipoFit + "_Fit" + ".pdf";
+    std::string tmp_fitplot = "../Data/Temperatura/Plots/" + tipoFit + "_Fit" + ".pdf";
     const char *ffit_plot = tmp_fitplot.c_str();
 
     c1->SaveAs(ffit_plot);

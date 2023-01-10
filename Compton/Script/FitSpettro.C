@@ -33,7 +33,7 @@ void FitSpettro()
     // Define Trees
     TTree *t = new TTree("t", "t");
 
-    std::string tmp = "../"+folder+"/picchiVSrate/Data/" + namefile + ".dat";
+    std::string tmp = "../"+folder+"/Data/" + namefile + ".dat";
     const char *fname = tmp.c_str();
 
     t->ReadFile(fname, "x");
@@ -66,7 +66,7 @@ void FitSpettro()
     auto *c = new TCanvas("c", "Spettro", 800, 700);
     h->Draw();
 
-    std::string tmp_name = "../"+folder+"/picchiVSrate/Plot/" + nameHist + ".pdf";
+    std::string tmp_name = "../"+folder+"/Plots/" + nameHist + ".pdf";
     const char *ffile = tmp_name.c_str();
 
     c->SaveAs(ffile);
@@ -91,6 +91,7 @@ void FitSpettro()
 
 
     //15 gradi: 3200, 3400, 4000
+    //25 gradi: 3200
     //17 cm: 5400, 5300, 6000
     //22 cm: 5400, 5300, 6000
     //27 cm: 5400, 5300, 6000
@@ -99,6 +100,7 @@ void FitSpettro()
     RooRealVar mean1("mean1", "mean of gaussians", 5400,5300 , 6000);
 
     //15 gradi: 1300, 800, 2000
+    //25 gradi: 1028
     //17 cm: 1500, 800, 2000
     //22 cm: ""
     //27 cm:""
@@ -107,6 +109,7 @@ void FitSpettro()
     RooRealVar sigma1("sigma1", "width of gaussians",1500 , 800, 2000);
     
     //15 gradi: 5000, 4900,5250
+    //25 gradi: 4821
     //17 cm; 6050, 5900, 6200
     //22 cm: 6015, 5900, 6200
     //27 cm; 5990,5800 , 6200
@@ -115,9 +118,11 @@ void FitSpettro()
     RooRealVar mean2("mean2", "mean of gaussians", 5990,5800 , 6200);
 
     //15 gradi: 100,100,800
+    //25 gradi: 348
     RooRealVar sigma2("sigma2", "width of gaussians", 100, 100, 800);
     
     //15 gradi: 5600, 5400, 6000
+    //25 gradi: 5489
     //17 cm: 6830, 6600, 7000
     //22 cm: 6780, 6600, 7000
     //27 cm: ""
@@ -125,6 +130,8 @@ void FitSpettro()
     //37 cm: 6670, 6500, 6900
     RooRealVar mean3("mean3", "mean of gaussians", 6780,6600 , 7000);
 
+
+    //25 gradi: 225
     RooRealVar sigma3("sigma3", "width of gaussians", 100, 100, 800);
     
     RooRealVar alpha_up("alpha_up","alpha_up",1,0,10);

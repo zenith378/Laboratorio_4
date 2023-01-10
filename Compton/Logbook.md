@@ -428,7 +428,7 @@ Possiamo misurare l'efficienza del PMT1, da considerare come sistematico. Consid
 Ragionare sul fatto che usare sorgenti che decadono beta è un rischio perchè non sono una riga, ma hanno uno spettro continuo
 
 
-## Stima degli errori sistematici
+## Stima degli errori sistematici (È SBAGLIATA! Corretta più avanti)
 Gli errori così stimati tengono di conto:
 - della resa luminosa del cristallo
 - dell'efficienza di raccolta dello scintillatore (Galli ha detto che è del 50%, ma dobbiamo capire se davvero è così e se anche fosse capire come giustificarlo)
@@ -494,3 +494,190 @@ Questa stima va ripetuta con tutte le distanze e associata a *err_peak1*, *err_p
 
 1. Correggere area istogramma: prendere area del solo segnale, senza fondo per la stima del sistematico dovuto alla scala di eenrgia
 2. Correggere fit calibrazione incorporando sisteamtici dovuti alla scala di energia
+
+
+## 20 dicembre 2022
+Sostituiamo lo scintillatore plastico, usando quello meno spesso:
+- larghezza scintillatore plastico: 1.82 cm (misurato con calibro)
+- spessore: 0.97 cm 
+- distanza plastico-cristallo circa 26 cm
+
+
+Togliamo lo scintillatore plastico più sottile perchè dovremmo trovare i nuovi punti di lavoro. Inoltre sospettiamo che l'indeterminazione sull'angolo, dovuta alla larghezza del cristallo supererebbe l'indeterminazione dovuta allo scintillatore. Il senso è questo: possiamo anche ridurre la divergenza angolare usando uno scintillatore più sottile, ma comunque il nostro cristallo copre un angolo di circa 7 gradi.
+
+Alle 15.25 la temperatura è di 21.1°
+
+Per ampliare la curva del rate vs posizione del picco fino a valori di rate pari a quelli in singola del PMT1 durante l'acquisizione (300 Hz circa) usiamo la sorgente di calibrazione di cobalto 60, posizionandola a distanze diverse dal cristallo, in modo da avere rate confrontabili con quelli del PMT1 durante le acquisizioni lunghe fatte. Usiamo la sorgente di calibrazione e non quella grande a disposzione poichè con quella non riusciamo a scendere a rate così bassi (quando l'abbiamo usata la scorsa volta avaevamo rate di 3 kHz)
+
+Distanza: 4.0 cm
+#Cobalto = 21513
+#tot = 103348
+*210hertz_cal.dat*
+
+Distanza: 3.5 cm
+#Cobalto = 23926
+#tot = 100534
+*239hertz_cal.dat*
+
+Distanza: 3 cm
+#Cobalto = 27674
+#tot = 100241
+*276hertz_cal.dat*
+
+Distanza: 2.5 cm
+#Cobalto = 30740
+#tot = 100000
+*307hertz_cal.dat*
+
+Distanza: 2 cm
+#Cobalto = 38191
+#tot = 10000
+*381hertz_cal.dat*
+
+Distanza: 1.5 cm
+#Cobalto =  43454
+#tot = 100000
+*434hertz_cal.dat*
+
+Distanza: 1 cm
+#Cobalto = 53062
+#tot = 100000
+*530hertz_cal.dat*
+
+Distanza: 0 cm
+#Cobalto = 87599
+#tot = 100000
+*875hertz_cal.dat*
+
+
+Distanza: 4 cm
+#Cobalto = 21337
+#tot = 100000
+*213hertz_cal.dat*
+
+
+Distanza: 4.5 cm
+#Cobalto = 19317
+#tot = 100000
+*193hertz_cal.dat*
+
+Distanza: 5 cm
+#Cobalto = 16757
+#tot = 100000
+*167hertz_cal.dat*
+
+Distanza: 7 cm
+#Cobalto = 11900
+#tot = 100000
+*119hertz_cal.dat*
+
+Distanza: 9 cm
+#Cobalto = 9159
+#tot = 100000
+*91hertz_cal.dat*
+
+Distanza: 11 cm
+#Cobalto = 7421
+#tot = 100000
+*74hertz_cal.dat*
+
+
+Forse le distanze non sono prese bene, riportare solo i rate.
+
+Errori rate:
+rate = #conteggi/100 s
+err_rate = sqrt(#conteggi)/100
+
+Posizone dei picchi al variare del rate: il segnale del cristallo ha una durata di qualche us, quindi per rate del kHz è probabile che quando arriva un secondo segnale quello precdente sia ancora un po'presente (siamo sulla coda) e quindi le due risposte si sommano, detrminando un aumento di energia e quindi un aumento della posizone del picco (coerente con quanto osserviamo)
+
+
+### Misura dell'asse del fascio
+
+Fissiamo la distanza del PMT1 lungo la guida e prendiamo quella usata durante le acquisizioni, cioè all'inizio della guida (distanza dal collimatore, estratto di 4.1 cm, è di: 16.6 cm - si tratta della distanza tra l'inizio del cristallo e il collimatore- vedi foto fatta). Ripetiamo la misura di rate, acquisendo gli spettri, in un range da 85 a 95 (o qualcosa di più). Salvo le acquisizioni in *spettronumerogradi.dat*. Acquisisco per 100 secondi con gate automatico. Serve acquisire anche lo spettro in modo da considerare non tutti i conteggi, ma solo quelli che cadono nei due picchi del Cobalto. Ci possono esser alcuni fotoni che fanno Compton nel collimatore.
+
+Angolo [°]| Counts in 100 s|
+:----|:--------|
+85| 315147|
+86| 381800|
+87| 458643|
+88| 519662|
+89| 553054|
+90| 564661|
+91| 567423|
+92| 571190|
+93| 573600|
+94| 573958|
+95| 575071|
+96| 571269|
+97| 552961|
+98| 506435|
+
+
+
+
+
+
+La temperatura alle 17:49 è di 21.0°
+
+PRENDERE VALORI DISTANZE
+
+
+## 21 dicembre 2022
+Inizio calibrazione ore: 09:19, temperatura 19.1°
+Acquisiamo per 100 s ogni sorgente e salviamo i dati in *21dicembre9nomesorgente10gradi.dat*.
+
+- Cesio:
+#counts = 222732
+
+- Sodio: 
+#counts = 18794
+
+- Cobalto: 
+#counts = 87096
+
+Non prendiamo più lo stronzio poichè emette beta e quindi lo spettro è largo.
+
+Acquisiamo ad un angolo di 10°. I rate dei due PMT in singola e in coincidenza sono mostrati nella foto fatta quel giorno con il telefono di Alessia.
+
+IMPORTANTE: rifare errori sistematici. Nei fattori che contribuiscono ad allargare la risoluzione in energia, cioè che allargano la nostra distribuzione, che in teoria sarebbe una delta, ci sono anche:
+- la variazione con la temperatura
+- rumore dell'elettronica
+
+L'errore dato dal fit non può essere meglio di sigma gauss/sqrt(numero campionamenti)
+
+
+### Errori sistematici calibrazioni 21 dicembre
+
+Sorgente| N_pe | N | Errore sistematico [%]|
+:-------|:-----|:--------|:-----|
+Cesio-137| | | 
+Cobalto-60 (primo picco)| | 
+Cobalto-60 (secondo picco)| |
+Sodio-22| | | 
+
+
+Misure distanze:
+
+- di quanto sporge collimatore: 4.1 cm
+- spessore plastico: 2.9 cm
+- larghezza scintillatore plastico: 5.2 cm
+- diametro cristallo: 5.6 cm
+1. 10°:
+    - distanza plastico-cristallo (dal centro del plastico al bordo sinistro- quello verso angoli più grandi- del cristallo): 14.6 cm, vedere ultima foto fatta per capire come è stata presa
+
+2. 15°:
+    - distanza plastico-cristallo: 15.1 cm
+
+3.  20°
+    - distanza plastico-cristallo: 15.4 cm
+
+ 4. 25°:
+    - distanza plastico-cristallo: 15.6 cm
+
+5. 0°
+    - distanza plastico-cristallo: 13.8 cm
+
+### Correzione per il rate
+Quando correggiamo per il rate, cioè trasliamo il rate di ogni sorgente ad un valore di riferimento dobbiamo considerare non il rate letto sul contatore, ma l'area sotto la curva di segnale, altrimenti contiamo anche eventi di fondo, soprattutto nel caso del Co-60.
+
+### Sistematico dovuto alla temperatura
