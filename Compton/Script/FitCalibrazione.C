@@ -126,7 +126,6 @@ void FitCalibrazione()
 
     //RooAddPdf model("model_gaus", "Gaussian model", RooArgList(sig_gaus1, bkg), RooArgList(fsig1), kTRUE);
     
-    //RooAddPdf model("model_cb", "Crystal Ball model", RooArgList(sig_cb1,sig_cb2,bkg), RooArgList(fsig1,fsig2),kTRUE);
 
     RooAddPdf model("model_cb", "Crystal Ball model", RooArgList(sig_cb1,bkg), RooArgList(fsig1),kTRUE);
 
@@ -147,9 +146,6 @@ void FitCalibrazione()
     // Overlay the background component of model with a dashed line
     model.plotOn(xframe, Components(bkg), LineColor(41), LineStyle(kDashed));
     // Overlay the sig1 components of model with a dashed-dotted line
-    model.plotOn(xframe, Components(sig_gaus1), LineColor(46), LineStyle(8));
-    model.plotOn(xframe, Components(sig_gaus2), LineColor(30), LineStyle(9));
-
     model.plotOn(xframe, Components(sig_cb1), LineColor(46), LineStyle(8));
     model.plotOn(xframe, Components(sig_cb2), LineColor(30), LineStyle(9));
 
